@@ -1,7 +1,7 @@
 local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
 
 local Window = Rayfield:CreateWindow({
-    Name = "Guiding Modhub V2.6",
+    Name = "Guiding Modhub V2.5",
     Icon = 139708924790241, -- Icon in Topbar. Use Roblox Image ID or Lucide Icons (string). Use 0 for no icon.
     LoadingTitle = "GUIDING",
     LoadingSubtitle = "MODHUB",
