@@ -1,7 +1,7 @@
 local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
 
 local Window = Rayfield:CreateWindow({
-    Name = "Guiding Modhub V2.5",
+    Name = "Guiding Modhub V2.6",
     Icon = 139708924790241, -- Icon in Topbar. Use Roblox Image ID or Lucide Icons (string). Use 0 for no icon.
     LoadingTitle = "GUIDING",
     LoadingSubtitle = "MODHUB",
@@ -183,13 +183,12 @@ local ElectricalHotel = MC:CreateButton({
       local TweenService = game:GetService("TweenService")
       local Debris = game:GetService("Debris")
       local SoundService = game:GetService("SoundService")
-      
+
       -- Function to modify all parts to DiamondPlate and color them gray
       local function modifyPartToGray(part)
          if part:IsA("BasePart") then
-            -- Change material to DiamondPlate and color to gray
             part.Material = Enum.Material.DiamondPlate
-            part.Color = Color3.fromRGB(47, 47, 47)  -- Gray color
+            part.Color = Color3.fromRGB(47, 47, 47) -- Gray color
          end
       end
 
@@ -206,15 +205,7 @@ local ElectricalHotel = MC:CreateButton({
       -- Electrocuting effect (blue explosion)
       local function applyElectricShock(part)
          if part:IsA("BasePart") then
-            -- Apply the blue explosion effect
-            local explosion = Instance.new("Explosion")
-            explosion.Position = part.Position
-            explosion.BlastRadius = 5
-            explosion.BlastPressure = 1000
-            explosion.ExplosionType = Enum.ExplosionType.NoCraters
-            explosion.Parent = game.Workspace
-
-            -- Add a blue particle effect for the explosion
+            -- Create the visual effect
             local shock = Instance.new("ParticleEmitter")
             shock.Texture = "rbxassetid://110655154102380" -- The blue electric shock texture
             shock.Parent = part
@@ -226,7 +217,7 @@ local ElectricalHotel = MC:CreateButton({
 
             -- Play the electric sound
             local electricSound = Instance.new("Sound")
-            electricSound.SoundId = "rbxassetid://92630376907021"  -- The sound ID for electricity
+            electricSound.SoundId = "rbxassetid://92630376907021" -- Sound ID for electricity
             electricSound.Parent = part
             electricSound:Play()
 
@@ -238,17 +229,17 @@ local ElectricalHotel = MC:CreateButton({
             local playersInRange = {}
             for _, player in pairs(Players:GetPlayers()) do
                 local character = player.Character
-                if character and character:FindFirstChild("Humanoid") then
+                if character and character:FindFirstChild("Humanoid") and character.PrimaryPart then
                     if (character.PrimaryPart.Position - part.Position).Magnitude < 10 then
                         table.insert(playersInRange, player)
                     end
                 end
             end
-            -- Apply damage to players in range
+
             for _, player in pairs(playersInRange) do
                 local humanoid = player.Character:FindFirstChild("Humanoid")
                 if humanoid then
-                    humanoid:TakeDamage(1.5)  -- Apply 1.5 damage
+                    humanoid:TakeDamage(1.5)
                 end
             end
          end
@@ -257,7 +248,8 @@ local ElectricalHotel = MC:CreateButton({
       -- Randomly electrocute parts in the game
       RunService.Heartbeat:Connect(function()
          if math.random() < 0.01 then
-            local randomPart = game.Workspace:GetDescendants()[math.random(1, #game.Workspace:GetDescendants())]
+            local parts = game.Workspace:GetDescendants()
+            local randomPart = parts[math.random(1, #parts)]
             applyElectricShock(randomPart)
          end
       end)
@@ -268,21 +260,20 @@ local ElectricalHotel = MC:CreateButton({
          if character then
             local humanoid = character:FindFirstChildOfClass("Humanoid")
             if humanoid then
-               -- Create and play walking sound if player is moving
                local walkingSound = Instance.new("Sound")
-               walkingSound.SoundId = "rbxassetid://3477114901"  -- Walking sound ID
+               walkingSound.SoundId = "rbxassetid://3477114901" -- Walking sound ID
                walkingSound.Parent = character:FindFirstChild("HumanoidRootPart")
                walkingSound.Looped = true
-               walkingSound.Volume = 0.5  -- Adjust the volume if needed
-               
+               walkingSound.Volume = 0.5 -- Adjust volume if needed
+
                humanoid.Running:Connect(function(speed)
                   if speed > 0 then
                      if not walkingSound.IsPlaying then
-                        walkingSound:Play()  -- Play walking sound
+                        walkingSound:Play()
                      end
                   else
                      if walkingSound.IsPlaying then
-                        walkingSound:Stop()  -- Stop walking sound when standing still
+                        walkingSound:Stop()
                      end
                   end
                end)
@@ -290,27 +281,21 @@ local ElectricalHotel = MC:CreateButton({
          end
       end
 
-      -- Apply walking sound effect to all players immediately
+      -- Apply walking sound effect to all players
       for _, player in pairs(Players:GetPlayers()) do
-         -- Directly apply walking sound if the player is already in the game
          if player.Character then
             playWalkingSound(player)
          end
          player.CharacterAdded:Connect(function()
-            playWalkingSound(player)  -- Apply walking sound when the character is added
+            playWalkingSound(player)
          end)
       end
 
-      -- Also apply walking sound for new players who join
+      -- Handle new players joining
       Players.PlayerAdded:Connect(function(player)
          player.CharacterAdded:Connect(function()
             playWalkingSound(player)
          end)
-      end)
-
-      -- Make sure to also check new parts added
-      game.Workspace.DescendantAdded:Connect(function(v)
-         modifyPartToGray(v)
       end)
 
    end,
