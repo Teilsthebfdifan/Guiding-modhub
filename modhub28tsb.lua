@@ -1,0 +1,62 @@
+local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
+
+local Window = Rayfield:CreateWindow({
+    Name = "Guiding Modhub (TSB)",
+    Icon = 139708924790241, -- Icon in Topbar. Use Roblox Image ID or Lucide Icons (string). Use 0 for no icon.
+    LoadingTitle = "GUIDING",
+    LoadingSubtitle = "MODHUB",
+    Theme = "Ocean", -- Check https://docs.sirius.menu/rayfield/configuration/themes for available themes.
+
+    DisableRayfieldPrompts = false, -- Set to true to disable Rayfield notifications/prompts.
+    DisableBuildWarnings = false, -- Prevents Rayfield from warning about version mismatches.
+
+    ConfigurationSaving = {
+        Enabled = true, -- Enables saving settings/configuration to local storage.
+        FolderName = "GuidingModhub", -- Folder name where configuration will be saved.
+        FileName = "GMH" -- File name for the configuration file.
+    },
+    
+    Discord = {
+        Enabled = true, -- Enables the Discord integration feature.
+        Invite = "fDKHZxGuuT", -- The Discord invite code (omit "discord.gg/").
+        RememberJoins = true -- Set to false to prompt users to join the Discord every time.
+    },
+
+    KeySystem = true, -- Enables the key system.
+    KeySettings = {
+        Title = "Guiding Modhub Key System", -- Title of the key system prompt.
+        Subtitle = "This function can be removed if you want! This function can get removed soon.", -- Subtitle for additional context.
+        Note = "Go to our Discord or ask your friend if they got it.", -- Note to inform users how to acquire the key.
+        FileName = "GuidingKey", -- Unique file name to save the key locally.
+        SaveKey = true, -- Allows the script to save the key locally for future use.
+        GrabKeyFromSite = false, -- Set to true to fetch the key from a remote source.
+        Key = {"ILOVELITHUB", "GUIDINGLIGHT", "browhat"} -- List of valid keys.
+    }
+})
+
+local Characters = Window:CreateTab("Map Configurations", 139708924790241) -- Title, Image
+
+local Okarun = Characters:CreateButton({
+    Name = "Okarun (GAROU)",
+    Callback = function()
+    loadstring(game:HttpGet"https://paste.ee/r/Pn4oj")()
+    end,
+})
+Rayfield:Notify({
+   Title = "Hey!",
+   Content = "This is inspired by lithub.",
+   Duration = 6.5,
+   Image = 139708924790241,
+})
+Rayfield:Notify({
+   Title = "idk",
+   Content = "Maybe go check it out!",
+   Duration = 6.5,
+   Image = 110655154102380,
+})
+Rayfield:Notify({
+   Title = "Credits",
+   Content = "Made by teilsthebfdifan",
+   Duration = 10,
+   Image = 73291096617811,
+})
