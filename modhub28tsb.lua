@@ -42,6 +42,27 @@ local Okarun = Characters:CreateButton({
     loadstring(game:HttpGet"https://paste.ee/r/Pn4oj")()
     end,
 })
+local Diddy = Characters:CreateButton({
+    Name = "Diddy (GAROU)",
+    Callback = function()
+    loadstring(game:HttpGet("https://paste.ee/r/gKC8V"))()    
+    end,
+})
+local GTChara = Characters:CreateButton({
+    Name = "Glitchtale Chara [Saitama]",
+    Callback = function()
+    loadstring(game:HttpGet("https://paste.ee/r/0yYkO"))()
+    end,
+})
+local MinosPrime = Characters:CreateButton({
+    Name = "Minosprime [Garou]",
+    Callback = function()
+_G.SkipIntro = false -- set to true if u want to skip minos prime intro
+_G.Night = false -- set to true if u want night
+
+loadstring(game:HttpGet("https://raw.githubusercontent.com/S1gmaGuy/MinosPrimeFixed/refs/heads/main/ThefixIsSoSigma"))()  
+    end,
+})
 Rayfield:Notify({
    Title = "Hey!",
    Content = "This is inspired by lithub.",
