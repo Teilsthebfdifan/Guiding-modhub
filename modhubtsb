@@ -54,6 +54,12 @@ local GTChara = Characters:CreateButton({
     loadstring(game:HttpGet("https://paste.ee/r/0yYkO"))()
     end,
 })
+local StarGlitcher = Characters:CreateButton({
+    Name = "Star Glitcher (GAROU)",
+    Callback = function()
+loadstring(game:HttpGet("https://paste.ee/r/mmQkO"))()
+    end,
+})
 local MinosPrime = Characters:CreateButton({
     Name = "Minosprime [Garou]",
     Callback = function()
@@ -70,8 +76,8 @@ Rayfield:Notify({
    Image = 139708924790241,
 })
 Rayfield:Notify({
-   Title = "idk",
-   Content = "Maybe go check it out!",
+   Title = "Changing Back",
+   Content = "You can change back by dying or changing characters!",
    Duration = 6.5,
    Image = 110655154102380,
 })
