@@ -1315,65 +1315,99 @@ local function applyToolEffects(tool)
                     end
                 end
             end
+   
+local function modifyLighterTool(tool)
+    local handle = tool:FindFirstChild("Handle")
+    if handle then
+        if handle:IsA("BasePart") then
+            handle.Color = Color3.fromRGB(255, 0, 0)
         end
 
-        tool.TextureId = "rbxassetid://112508503632935"
+        if tool:IsA("Tool") then
+            tool.TextureId = "rbxassetid://112508503632935"
+        end
 
-        task.spawn(function()
-            local heldTime = 0
-            while tool and tool.Parent and Players.LocalPlayer.Character:FindFirstChild(tool.Name) do
-                task.wait(1)
-                heldTime = heldTime + 1
-                if heldTime >= explosionTimeLimit then
-                    local explosion = Instance.new("Explosion")
-                    explosion.Position = Players.LocalPlayer.Character.HumanoidRootPart.Position
-                    explosion.Parent = workspace
-                    local explosionSound = Instance.new("Sound")
-                    explosionSound.SoundId = explosionSoundId
-                    explosionSound.PlayOnRemove = true
-                    explosionSound.Parent = explosion
-                    explosionSound:Destroy()
-                    Players.LocalPlayer.Character.Humanoid.Health = 0
+        local dustEmitter = handle:FindFirstChild("DustEmitter")
+        if not dustEmitter then
+            dustEmitter = Instance.new("ParticleEmitter")
+            dustEmitter.Name = "DustEmitter"
+            dustEmitter.Texture = "rbxassetid://110886007258155"
+            dustEmitter.Rate = 10
+            dustEmitter.Lifetime = NumberRange.new(1, 2)
+            dustEmitter.Speed = NumberRange.new(0.5, 1.5)
+            dustEmitter.Size = NumberSequence.new(0.5)
+            dustEmitter.Parent = handle
+        end
+
+        for _, descendant in ipairs(handle:GetDescendants()) do
+            if descendant:IsA("BasePart") or descendant:IsA("Light") or descendant:IsA("ParticleEmitter") then
+                if descendant:IsA("BasePart") then
+                    descendant.Color = Color3.fromRGB(255, 0, 0)
+                elseif descendant:IsA("Light") then
+                    descendant.Color = Color3.fromRGB(255, 0, 0)
+                    descendant.Brightness = 1.5
+                    descendant.Range = 16
+                elseif descendant:IsA("ParticleEmitter") then
+                    descendant.Color = ColorSequence.new(Color3.fromRGB(255, 0, 0))
                 end
             end
-        end)
+        end
     end
 end
 
-local function highlightFakeDoors()
-    for _, model in ipairs(workspace:GetDescendants()) do
-        if model:IsA("Model") and model.Name == "DoorFake" then
-            for _, part in ipairs(model:GetDescendants()) do
+local function highlightDoorFake(tool)
+    for _, doorFake in ipairs(game:GetDescendants()) do
+        if doorFake.Name == "DoorFake" and doorFake:IsA("Model") and tool:IsDescendantOf(game.Players.LocalPlayer.Backpack) then
+            for _, part in ipairs(doorFake:GetDescendants()) do
                 if part:IsA("BasePart") then
-                    local highlight = Instance.new("Highlight")
-                    highlight.FillColor = highlightColor
+                    local highlight = part:FindFirstChild("Highlight")
+                    if not highlight then
+                        highlight = Instance.new("Highlight")
+                        highlight.FillColor = Color3.fromRGB(255, 0, 0)
+                        highlight.OutlineTransparency = 1
+                        highlight.Parent = part
+                    end
+                end
+            end
+        end
+    end
+end
+
+game.DescendantAdded:Connect(function(descendant)
+    if descendant:IsA("Tool") and descendant.Name == "Lighter" then
+        modifyLighterTool(descendant)
+    elseif descendant:IsA("Model") and descendant.Name == "DoorFake" then
+        for _, part in ipairs(descendant:GetDescendants()) do
+            if part:IsA("BasePart") then
+                local highlight = part:FindFirstChild("Highlight")
+                if not highlight then
+                    highlight = Instance.new("Highlight")
+                    highlight.FillColor = Color3.fromRGB(255, 0, 0)
                     highlight.OutlineTransparency = 1
                     highlight.Parent = part
                 end
             end
         end
-    end
-
-    workspace.DescendantAdded:Connect(function(descendant)
-        if descendant:IsA("Model") and descendant.Name == "DoorFake" then
-            for _, part in ipairs(descendant:GetDescendants()) do
-                if part:IsA("BasePart") then
-                    local highlight = Instance.new("Highlight")
-                    highlight.FillColor = highlightColor
-                    highlight.OutlineTransparency = 1
-                    highlight.Parent = part
-                end
-            end
-        end
-    end)
-end
-
-Players.LocalPlayer.Backpack.ChildAdded:Connect(applyToolEffects)
-workspace.DescendantAdded:Connect(function(descendant)
-    if descendant:IsA("Tool") then
-        applyToolEffects(descendant)
     end
 end)
+
+for _, descendant in ipairs(game:GetDescendants()) do
+    if descendant:IsA("Tool") and descendant.Name == "Lighter" then
+        modifyLighterTool(descendant)
+    elseif descendant:IsA("Model") and descendant.Name == "DoorFake" then
+        for _, part in ipairs(descendant:GetDescendants()) do
+            if part:IsA("BasePart") then
+                local highlight = part:FindFirstChild("Highlight")
+                if not highlight then
+                    highlight = Instance.new("Highlight")
+                    highlight.FillColor = Color3.fromRGB(255, 0, 0)
+                    highlight.OutlineTransparency = 1
+                    highlight.Parent = part
+                end
+            end
+        end
+    end
+end
 
 highlightFakeDoors()
 Rayfield:Notify({
