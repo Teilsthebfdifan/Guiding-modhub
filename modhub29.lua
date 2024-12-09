@@ -1286,36 +1286,6 @@ Rayfield:Notify({
 local MischievousLighter = Items:CreateButton({
    Name = "Mischievous Lighter (By us)",
    Callback = function()
-local Players = game:GetService("Players")
-local RunService = game:GetService("RunService")
-
-local highlightColor = Color3.new(1, 0, 0)
-local explosionSoundId = "rbxassetid://3802269741"
-local explosionTimeLimit = 1200
-
-local function applyToolEffects(tool)
-    if tool.Name == "Lighter" then
-        local handle = tool:FindFirstChild("Handle")
-        if handle then
-            handle.Color = Color3.new(1, 0, 0)
-            local soundOpen = handle:FindFirstChild("sound_open")
-            if soundOpen and soundOpen:IsA("Sound") then
-                soundOpen.SoundId = explosionSoundId
-            end
-
-            for _, descendant in ipairs(handle:GetDescendants()) do
-                if descendant:IsA("BasePart") or descendant:IsA("ParticleEmitter") or descendant:IsA("PointLight") then
-                    descendant.Color = Color3.new(1, 0, 0)
-                    if descendant:IsA("ParticleEmitter") then
-                        descendant.Texture = "rbxassetid://110886007258155"
-                    elseif descendant:IsA("PointLight") then
-                        descendant.Color = Color3.new(1, 0, 0)
-                        descendant.Brightness = 1.5
-                        descendant.Range = 16
-                    end
-                end
-            end
-   
 local function modifyLighterTool(tool)
     local handle = tool:FindFirstChild("Handle")
     if handle then
@@ -1408,8 +1378,6 @@ for _, descendant in ipairs(game:GetDescendants()) do
         end
     end
 end
-
-highlightFakeDoors()
 Rayfield:Notify({
    Title = "Items",
    Content = "To use the lighter , BUY A NORMAL LIGHTER , HOLD IT THEN PRESS THE BUTTON!!",
