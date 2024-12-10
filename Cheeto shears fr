@@ -23,22 +23,11 @@ local function modifyShearsTool(tool)
     end
 end
 
-local function randomizeWorkspaceSounds()
+local function modifyWorkspaceSound()
     local workspaceSound = workspace:FindFirstChild("Sound")
     if workspaceSound and workspaceSound:IsA("Sound") then
-        while true do
-            local soundId
-            if math.random(1, 2) == 1 then
-                soundId = "rbxassetid://17740288119"
-            else
-                soundId = "rbxassetid://17740287715"
-            end
-
-            workspaceSound.SoundId = soundId
-            workspaceSound.Pitch = 1
-
-            task.wait(1)
-        end
+        workspaceSound.SoundId = "rbxassetid://17740288119"
+        workspaceSound.Pitch = 1
     end
 end
 
@@ -57,4 +46,4 @@ local function trackShearsTool()
 end
 
 trackShearsTool()
-task.spawn(randomizeWorkspaceSounds)
+modifyWorkspaceSound()
