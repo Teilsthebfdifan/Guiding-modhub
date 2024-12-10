@@ -8,8 +8,6 @@ local function modifyShearsTool(tool)
             if part:IsA("BasePart") then
                 part.Color = Color3.fromRGB(255, 255, 255)
                 part.Material = Enum.Material.Foil
-            elseif part:IsA("Mesh") then
-                part.TextureId = "rbxassetid://84054438661987"
             end
         end
 
