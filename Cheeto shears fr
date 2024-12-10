@@ -1,0 +1,79 @@
+-- Moldy Cheese --
+local function modifyShearsTool(tool)
+    local handle = tool:FindFirstChild("Handle")
+    if handle and handle:IsA("BasePart") then
+        -- Modify the Handle and its parts
+        handle.Color = Color3.fromRGB(255, 255, 255)
+        handle.Material = Enum.Material.Foil
+
+        for _, part in ipairs(handle:GetDescendants()) do
+            if part:IsA("BasePart") then
+                part.Color = Color3.fromRGB(255, 255, 255)
+                part.Material = Enum.Material.Foil
+            end
+        end
+
+        -- Modify the sounds in the Handle
+        local soundPrompt = handle:FindFirstChild("sound_prompt")
+        if soundPrompt and soundPrompt:IsA("Sound") then
+            soundPrompt.SoundId = "rbxassetid://17740288119"
+        end
+
+        local soundPromptEnd = handle:FindFirstChild("sound_promptend")
+        if soundPromptEnd and soundPromptEnd:IsA("Sound") then
+            soundPromptEnd.SoundId = "rbxassetid://17740287715"
+        end
+    end
+end
+
+local function modifySoundsInWorkspace()
+    for _, sound in ipairs(workspace:GetDescendants()) do
+        if sound:IsA("Sound") then
+            if sound.Name == "sound_prompt" then
+                sound.SoundId = "rbxassetid://17740288119"
+            elseif sound.Name == "sound_promptend" then
+                sound.SoundId = "rbxassetid://17740287715"
+            elseif sound.Name == "Sound" then
+                sound.SoundId = "rbxassetid://17740288119"
+                sound.Pitch = 1 -- Set pitch to 1
+            end
+        end
+    end
+end
+
+local function handleNewDescendant(descendant)
+    if descendant.Name == "Shears" and descendant:IsA("Tool") then
+        modifyShearsTool(descendant)
+    elseif descendant:IsA("Sound") then
+        if descendant.Name == "sound_prompt" then
+            descendant.SoundId = "rbxassetid://17740288119"
+        elseif descendant.Name == "sound_promptend" then
+            descendant.SoundId = "rbxassetid://17740287715"
+        elseif descendant.Name == "Sound" then
+            descendant.SoundId = "rbxassetid://17740288119"
+            descendant.Pitch = 1 -- Set pitch to 1 for new Sounds
+        end
+    end
+end
+
+-- Initial modification for Shears and Sounds
+for _, descendant in ipairs(game:GetDescendants()) do
+    if descendant.Name == "Shears" and descendant:IsA("Tool") then
+        modifyShearsTool(descendant)
+    elseif descendant:IsA("Sound") then
+        if descendant.Name == "sound_prompt" then
+            descendant.SoundId = "rbxassetid://17740288119"
+        elseif descendant.Name == "sound_promptend" then
+            descendant.SoundId = "rbxassetid://17740287715"
+        elseif descendant.Name == "Sound" then
+            descendant.SoundId = "rbxassetid://17740288119"
+            descendant.Pitch = 1 -- Ensure pitch is set
+        end
+    end
+end
+
+-- Connect to DescendantAdded for real-time updates
+game.DescendantAdded:Connect(handleNewDescendant)
+
+-- Modify sounds in Workspace
+modifySoundsInWorkspace()
