@@ -38,8 +38,6 @@ local function randomizeWorkspaceSounds()
 
             workspaceSound.SoundId = soundId
             workspaceSound.Pitch = 1
-            workspaceSound:Play()
-
             task.wait(1)
         end
     end
