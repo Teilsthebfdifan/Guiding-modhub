@@ -22,6 +22,8 @@ local function modifyShearsTool(tool)
         if soundPromptEnd and soundPromptEnd:IsA("Sound") then
             soundPromptEnd.SoundId = "rbxassetid://17740287715"
         end
+
+        tool.TextureId = "rbxassetid://76780788775848"
     end
 end
 
