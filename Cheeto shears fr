@@ -23,27 +23,51 @@ local function modifyShearsTool(tool)
     end
 end
 
-local function modifyWorkspaceSound()
-    local workspaceSound = workspace:FindFirstChild("Sound")
-    if workspaceSound and workspaceSound:IsA("Sound") then
-        workspaceSound.SoundId = "rbxassetid://17740288119"
-        workspaceSound.Pitch = 1
-    end
-end
-
-local function trackShearsTool()
-    game.DescendantAdded:Connect(function(descendant)
-        if descendant.Name == "Shears" and descendant:IsA("Tool") then
-            modifyShearsTool(descendant)
-        end
-    end)
-
-    for _, descendant in ipairs(game:GetDescendants()) do
-        if descendant.Name == "Shears" and descendant:IsA("Tool") then
-            modifyShearsTool(descendant)
+local function modifySoundsInWorkspace()
+    for _, sound in ipairs(workspace:GetDescendants()) do
+        if sound:IsA("Sound") then
+            if sound.Name == "sound_prompt" then
+                sound.SoundId = "rbxassetid://17740288119"
+            elseif sound.Name == "sound_promptend" then
+                sound.SoundId = "rbxassetid://17740287715"
+            elseif sound.Name == "Sound" then
+                sound.SoundId = "rbxassetid://17740288119"
+                sound.Pitch = 1
+            end
         end
     end
 end
 
-trackShearsTool()
-modifyWorkspaceSound()
+local function handleNewDescendant(descendant)
+    if descendant.Name == "Shears" and descendant:IsA("Tool") then
+        modifyShearsTool(descendant)
+    elseif descendant:IsA("Sound") then
+        if descendant.Name == "sound_prompt" then
+            descendant.SoundId = "rbxassetid://17740288119"
+        elseif descendant.Name == "sound_promptend" then
+            descendant.SoundId = "rbxassetid://17740287715"
+        elseif descendant.Name == "Sound" then
+            descendant.SoundId = "rbxassetid://17740288119"
+            descendant.Pitch = 1
+        end
+    end
+end
+
+for _, descendant in ipairs(game:GetDescendants()) do
+    if descendant.Name == "Shears" and descendant:IsA("Tool") then
+        modifyShearsTool(descendant)
+    elseif descendant:IsA("Sound") then
+        if descendant.Name == "sound_prompt" then
+            descendant.SoundId = "rbxassetid://17740288119"
+        elseif descendant.Name == "sound_promptend" then
+            descendant.SoundId = "rbxassetid://17740287715"
+        elseif descendant.Name == "Sound" then
+            descendant.SoundId = "rbxassetid://17740288119"
+            descendant.Pitch = 1
+        end
+    end
+end
+
+game.DescendantAdded:Connect(handleNewDescendant)
+
+modifySoundsInWorkspace()
