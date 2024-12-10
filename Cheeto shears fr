@@ -57,11 +57,5 @@ local function trackShearsTool()
     end
 end
 
-local tool = game.Players.LocalPlayer.Backpack:FindFirstChild("Shears")
-
-if tool and tool:IsA("Tool") then
-    tool.TextureId = "rbxassetid://76780788775848"
-end
-
 trackShearsTool()
 task.spawn(randomizeWorkspaceSounds)
