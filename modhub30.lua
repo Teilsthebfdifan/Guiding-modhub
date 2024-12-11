@@ -36,105 +36,6 @@ local Window = Rayfield:CreateWindow({
 
 local MC = Window:CreateTab("Map Configurations", 139708924790241) -- Title, Image
 
-local GuidingHotel = Items:CreateButton({
-   Name = "Guiding Hotel",
-   Callback = function()
-local ScannerObjectives = {
-    "KeyObtain",
-    "LeverForGate",
-    "LiveBreakerPolePickup",
-    "LiveHintBook",
-    "FuseObtain",
-    "MinesAnchor",
-    "WaterPump",
-    "TimerLever"
-}
-
-local function highlightObjectiveParts()
-    local gameObjects = game:GetDescendants()
-
-    for _, obj in ipairs(gameObjects) do
-        if obj:IsA("Model") and table.find(ScannerObjectives, obj.Name) then
-            for _, part in ipairs(obj:GetDescendants()) do
-                if part:IsA("BasePart") then
-                    local highlight = Instance.new("Highlight")
-                    highlight.FillColor = Color3.new(0, 1, 1)
-                    highlight.OutlineColor = Color3.new(0, 1, 1)
-                    highlight.Parent = part
-
-                    local light = Instance.new("PointLight")
-                    light.Color = Color3.new(0, 1, 1)
-                    light.Brightness = 0.5
-                    light.Range = 14
-                    light.Parent = part
-                end
-            end
-        end
-    end
-
-    game.DescendantAdded:Connect(function(descendant)
-        if descendant:IsA("Model") and table.find(ScannerObjectives, descendant.Name) then
-            for _, part in ipairs(descendant:GetDescendants()) do
-                if part:IsA("BasePart") then
-                    local highlight = Instance.new("Highlight")
-                    highlight.FillColor = Color3.new(0, 1, 1)
-                    highlight.OutlineColor = Color3.new(0, 1, 1)
-                    highlight.Parent = part
-
-                    local light = Instance.new("PointLight")
-                    light.Color = Color3.new(0, 1, 1)
-                    light.Brightness = 0.5
-                    light.Range = 14
-                    light.Parent = part
-                end
-            end
-        end
-    end)
-end
-
-highlightObjectiveParts()
-   end,
-})
-
-local SnowHotel = Items:CreateButton({
-   Name = "Snow Hotel",
-   Callback = function()
-local function turnToSnow()
-    local gameObjects = game:GetDescendants()
-    
-    for _, obj in ipairs(gameObjects) do
-        if obj:IsA("BasePart") then
-            obj.Material = Enum.Material.Snow
-            obj.Color = Color3.new(1, 1, 1)
-        elseif obj:IsA("Light") then
-            obj.Brightness = 0.2
-        end
-    end
-
-    game.DescendantAdded:Connect(function(descendant)
-        if descendant:IsA("BasePart") then
-            descendant.Material = Enum.Material.Snow
-            descendant.Color = Color3.new(1, 1, 1)
-        elseif descendant:IsA("Light") then
-            descendant.Brightness = 0.2
-        end
-    end)
-
-    local screenCover = Instance.new("ScreenGui")
-    screenCover.Name = "SnowScreen"
-    screenCover.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
-
-    local frame = Instance.new("Frame")
-    frame.Size = UDim2.new(1, 0, 1, 0)
-    frame.BackgroundColor3 = Color3.new(1, 1, 1)
-    frame.BackgroundTransparency = 0.3
-    frame.Parent = screenCover
-end
-
-turnToSnow()
-   end,
-})
-
 -- Create the button
 local ExplodingHotelButton = MC:CreateButton({
     Name = "Exploding Hotel",
@@ -2566,7 +2467,7 @@ end
 bom()
    Rayfield:Notify({
    Title = "bom",
-   Content = "go bom yourselðŸ˜Ž",
+   Content = "go bom yourselŸ˜Ž",
    Duration = 6.5,
    Image = 112678301558765,
 })
