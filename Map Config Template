@@ -1,0 +1,40 @@
+-- teilsthebfdifan's map config template
+      local Lighting = game:GetService("Lighting")
+      local Players = game:GetService("Players")
+-- this is the function , do not remove
+      local function modifyPart(part)
+         if part:IsDescendantOf(Players.LocalPlayer.Character) then return end
+         if part:IsA("BasePart") then
+            part.Material = Enum.Material.SmoothPlastic -- material , choose ur own
+            part.Color = Color3.fromRGB(100, 100, 255) -- color
+         elseif part:IsA("Decal") or part:IsA("Texture") then
+            part.Color3 = Color3.fromRGB(255, 150, 200) -- this is for texture
+         end
+      end
+
+      for _, v in pairs(game:GetDescendants()) do
+         modifyPart(v)
+      end
+
+      game.DescendantAdded:Connect(function(v)
+         modifyPart(v)
+      end)
+
+      Lighting.Ambient = Color3.fromRGB(50, 50, 50)
+      Lighting.OutdoorAmbient = Color3.fromRGB(30, 30, 30)
+      Lighting.FogColor = Color3.fromRGB(70, 70, 70)
+      Lighting.FogStart = 50
+      Lighting.FogEnd = 200 -- lighting , used for fog
+-- background , put ur music id
+      local sound = Instance.new("Sound", workspace)
+      sound.SoundId = "rbxassetid://1843496557"
+      sound.Volume = 0.5
+      sound.Looped = true
+      sound:Play()
+
+      local player = Players.LocalPlayer
+      local character = player.Character or player.CharacterAdded:Wait()
+      local humanoid = character:FindFirstChildOfClass("Humanoid")
+      if humanoid then
+         humanoid.WalkSpeed = 14 -- this is the effect , configure it or delete it
+      end
