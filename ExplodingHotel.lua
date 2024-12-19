@@ -14,6 +14,7 @@ ExplodingHotel.Looped = true
 ExplodingHotel:Play()
 
 local Players = game:GetService("Players")
+local Debris = game:GetService("Debris")
 local RunService = game:GetService("RunService")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local cooldown = false
@@ -35,19 +36,24 @@ local function createExplosion()
     local randomPart = parts[math.random(1, #parts)]
 
     if randomPart:IsA("BasePart") then
-        local explosionPosition = randomPart.Position
-        modifyNearbyParts(explosionPosition, 10)
+        local explosion = Instance.new("Explosion")
+        explosion.Position = randomPart.Position
+        explosion.BlastRadius = 10
+        explosion.BlastPressure = 500
+        explosion.Parent = workspace
+
+        modifyNearbyParts(randomPart.Position, 10)
 
         for _, player in pairs(Players:GetPlayers()) do
             local character = player.Character
             if character and character:FindFirstChild("Humanoid") and character.PrimaryPart then
-                local distance = (character.PrimaryPart.Position - explosionPosition).Magnitude
+                local distance = (character.PrimaryPart.Position - explosion.Position).Magnitude
                 if distance <= 10 then
                     character.Humanoid:TakeDamage(35)
-                    if character.Humanoid.Health <= 0 and ReplicatedStorage:FindFirstChild("GameStats") then
-                        local playerStats = ReplicatedStorage.GameStats:FindFirstChild("Player_" .. player.Name)
-                        if playerStats then
-                            playerStats.Total.DeathCause.Value = "Explosion"
+                    if character.Humanoid.Health <= 0 then
+                        local playerStats = ReplicatedStorage:FindFirstChild("GameStats")
+                        if playerStats and playerStats:FindFirstChild("Player_" .. player.Name) then
+                            playerStats["Player_" .. player.Name].Total.DeathCause.Value = "Explosion"
                         end
                     end
                 end
@@ -56,8 +62,12 @@ local function createExplosion()
 
         if math.random() < 0.3 then
             task.wait(0.1)
-            local secondExplosionPosition = explosionPosition + Vector3.new(math.random(-5, 5), 0, math.random(-5, 5))
-            modifyNearbyParts(secondExplosionPosition, 10)
+            local secondExplosion = Instance.new("Explosion")
+            secondExplosion.Position = randomPart.Position + Vector3.new(math.random(-5, 5), 0, math.random(-5, 5))
+            secondExplosion.BlastRadius = 10
+            secondExplosion.BlastPressure = 500
+            secondExplosion.Parent = workspace
+            modifyNearbyParts(secondExplosion.Position, 10)
         end
     end
 
