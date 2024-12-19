@@ -49,7 +49,7 @@ local function createExplosion()
             if character and character:FindFirstChild("Humanoid") and character.PrimaryPart then
                 local distance = (character.PrimaryPart.Position - explosion.Position).Magnitude
                 if distance <= 10 then
-                    character.Humanoid:TakeDamage(35)
+                    character.Humanoid:TakeDamage(100)
                     if character.Humanoid.Health <= 0 then
                         local playerStats = ReplicatedStorage:FindFirstChild("GameStats")
                         if playerStats and playerStats:FindFirstChild("Player_" .. player.Name) then
